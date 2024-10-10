@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" InitialTargets="ValidateGamePath">
+
+  <Import Project="GameFolder.props" Condition="Exists('./GameFolder.props')" />
+  <Target Name="ValidateGamePath">
+    <Error Text="The GameFolder property must be set to the GTFO game folder." Condition="'$(GameFolder)' == '' or !Exists('$(GameFolder)')" />
+  </Target>
+
+  <PropertyGroup>
+    <BIELibsFolder>$(GameFolder)/BepInEx/core</BIELibsFolder>
+    <!-- <UnhollowedLibsFolder>$(GameFolder)/BepInEx/unhollowed</UnhollowedLibsFolder> -->
+    <PluginsFolder>$(GameFolder)/BepInEx/plugins</PluginsFolder>
+    <MonoManagedFolder>$(GameFolder)/mono/Managed</MonoManagedFolder>
+    <TargetFramework>net6</TargetFramework>
+
+    <UnhollowedLibsFolder>$(GameFolder)/BepInEx/interop</UnhollowedLibsFolder>
+    <CorLibsFolder>$(GameFolder)/dotnet/corlib</CorLibsFolder>
+
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Version>0.1.1</Version>
+    <RootNamespace>MagicalAstrogy.GTFDGLAB</RootNamespace>
+    <AssemblyName>MagicalAstrogy.GTFDGLAB</AssemblyName>
+    <PackageId>MagicalAstrogy.GTFDGLAB</PackageId>
+    <Authors>MagicalAstrogy.GTFDGLAB</Authors>
+    <Company>MagicalAstrogy.GTFDGLAB</Company>
+    <Product>MagicalAstrogy.GTFDGLAB</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="$(BIELibsFolder)/BepInEx.*.dll" Private="false" />
+    <Reference Include="$(BIELibsFolder)/0Harmony.dll" Private="false" />
+    <!--
+    <Reference Include="$(BIELibsFolder)/UnhollowerBaseLib.dll" Private="false" />
+    <Reference Include="$(BIELibsFolder)/UnhollowerRuntimeLib.dll" Private="false" />
+    <Reference Include="$(BIELibsFolder)/../plugins/Kasuromi-Nidhogg/Nidhogg.dll" Private="false" />
+-->
+
+
+    <Reference Include="$(UnhollowedLibsFolder)/*.dll" Private="false" />
+    <Reference Include="$(BIELibsFolder)/Il2CppInterop.Common.dll" Private="false" />
+    <Reference Include="$(BIELibsFolder)/Il2CppInterop.Generator.dll" Private="false" />
+    <Reference Include="$(BIELibsFolder)/Il2CppInterop.HarmonySupport.dll" Private="false" />
+    <Reference Include="$(BIELibsFolder)/Il2CppInterop.Runtime.dll" Private="false" />
+
+    <!-- CoreCLR -->
+    <Reference Include="$(CorLibsFolder)\*.dll" Private="false" />
+    <Reference Include="$(CorLibsFolder)\..\System.Private.CoreLib.dll" Private="false" />
+
+    <Compile Remove="Converters\**" />
+    <Compile Remove="DTO\**" />
+    <Compile Remove="Properties\**" />
+    <Compile Remove="Utils\**" />
+    <EmbeddedResource Remove="Converters\**" />
+    <EmbeddedResource Remove="DTO\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <EmbeddedResource Remove="Utils\**" />
+    <None Remove="Converters\**" />
+    <None Remove="DTO\**" />
+    <None Remove="Properties\**" />
+    <None Remove="Utils\**" />
+    <Reference Include="$(MonoManagedFolder)/Microsoft.CSharp.dll" Private="false" />
+    <Reference Remove="$(UnhollowedLibsFolder)/Newtonsoft.Json.dll" />
+    <Reference Remove="$(UnhollowedLibsFolder)/netstandard.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.0" />
+  </ItemGroup>
+</Project>
