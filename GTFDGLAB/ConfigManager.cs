@@ -20,7 +20,11 @@ public class ConfigManager
             1f / 12 * 3, "Ratio of damage received to duration.");
         
         ConfigManager._strengthMultiplier = configFile.Bind<float>("Magical", "StrengthMultiplier",
-            1.5f, "Ratio of damage received to strength.");
+            1f, "Ratio of damage received to strength.");
+        
+        
+        ConfigManager._sendWhenInfection = configFile.Bind<bool>("Magical", "SendWhenInfection",
+            true, "When taking damage from infection, a signal will be sent.");
 
     }
 
@@ -40,4 +44,8 @@ public class ConfigManager
     public static float StrengthMultiplier => ConfigManager._strengthMultiplier.Value;
 
     private static ConfigEntry<float> _strengthMultiplier;
+    
+    public static bool SendWhenInfection => ConfigManager._sendWhenInfection.Value;
+
+    private static ConfigEntry<bool> _sendWhenInfection;
 }

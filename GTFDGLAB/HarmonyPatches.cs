@@ -63,8 +63,11 @@ namespace MagicalAstrogy.GTFDGLAB
             {
                 Logger.Log($"Received Damage222 {diff}");
                 if (diff < 2) // Infection Damage
-                    DGLabHttpRequest.Fire(2, 
-                        __instance.Owner.PlayerData.healthRegenDelay);
+                {
+                    if (ConfigManager.SendWhenInfection)
+                        DGLabHttpRequest.Fire(4,
+                            2);
+                }
                 else
                     DGLabHttpRequest.Fire(diff * ConfigManager.StrengthMultiplier, 
                         diff * ConfigManager.TimeMultiplier);
@@ -87,4 +90,37 @@ namespace MagicalAstrogy.GTFDGLAB
             }
         }
     }
+/*
+    [HarmonyPatch(typeof(Dam_PlayerDamageLocal), nameof(Dam_PlayerDamageLocal.ReceiveMeleeDamage))]
+    public static class OnMeleeDamage
+    {
+        public static void Prefix(Dam_PlayerDamageLocal __instance, pFullDamageData data)
+        {
+            if (!__instance.Owner.IsLocallyOwned) return;
+            var diff = data.damage.Get(__instance.DamageMax) * 4;
+            if (diff > 0)
+            {
+                Logger.Log($"Received Damage444 {diff}");
+                DGLabHttpRequest.Fire(diff * ConfigManager.StrengthMultiplier,
+                    diff * ConfigManager.TimeMultiplier);
+            }
+        }
+    }
+    
+    [HarmonyPatch(typeof(Dam_PlayerDamageLocal), nameof(Dam_PlayerDamageLocal.ReceiveBulletDamage))]
+    public static class OnBulletDamage
+    {
+        public static void Prefix(Dam_PlayerDamageLocal __instance, pBulletDamageData data)
+        {
+            if (!__instance.Owner.IsLocallyOwned) return;
+            var diff = data.damage.Get(__instance.DamageMax) * 4;
+            if (diff > 0)
+            {
+                Logger.Log($"Received Damage555 {diff}");
+                DGLabHttpRequest.Fire(diff * ConfigManager.StrengthMultiplier,
+                    diff * ConfigManager.TimeMultiplier);
+            }
+        }
+    }
+    */
 }
